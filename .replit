@@ -1,0 +1,1 @@
+run="python3 -m poetry install && cd back && python3 main.py"
