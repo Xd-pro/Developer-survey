@@ -47,7 +47,7 @@
     */
 
     async function choose(i) {
-        sumbitChoice()
+        sumbitChoice(data[i])
     }
 </script>
 
