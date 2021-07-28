@@ -42,8 +42,8 @@ class ScarletDB:
       self.struct[key] = {}
       for i, doc in enumerate(self.list):
         if self.list[i].get(key, None) not in self.struct[key]:
-          self.struct[key][self.list[i].get(key, None)] = []
-        self.struct[key][self.list[i].get(key, None)].append(i)
+          self.struct[key][self.list[i][key]] = []
+        self.struct[key][self.list[i][key]].append(i)
 
   def insert(self, dict: dict) -> None:
     self.list.append(dict)
@@ -110,7 +110,11 @@ class ScarletDB:
     if query_by_index:
       self.list.pop(query)
     else:
-      self.list.pop(self.get(query, one=one))
+      print(self.get(query, one=one, return_indices=True))
+      iters = 0
+      for i in self.get(query, one=one, return_indices=True):
+        self.list.pop(i - iters)
+        iters += 1
     self.structure()
     self.commit()
 
@@ -138,6 +142,7 @@ class ScarletDB:
       self.list = json.loads(json.loads(rdb.get_raw(name)))
     except TypeError: # backwards compatible
       rdb[name] = rdb.dumps(rdb[name])
+    self.structure()
     self.commit()
 
   def clear(self):
