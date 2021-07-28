@@ -6,7 +6,7 @@
             "https://developer-survey.xfinnbar.repl.co/api/get_choices"
         );
         if (await r.status == 400) {
-            alert("Error");
+            // alert("Error");
             console.log({ status: r.status, text: r.text });
             return;
         }
@@ -21,16 +21,17 @@
     }
 
     async function sumbitChoice(choice) {
-        let url = "https://developer-survey.xfinnbar.repl.co/api/answer?choice=" + encodeURIComponent(choice);
+        /* let url = "https://developer-survey.xfinnbar.repl.co/api/answer?choice=" + encodeURIComponent(choice);
         let r = await fetch(url);
         if (await r.status == 400) {
             alert("Error: " + await r.text())
             console.log()
             return false
         } else {
+            main()
             return true
-        }
-        main()
+        } */
+        location.href = `https://developer-survey.xfinnbar.repl.co/login?next=${encodeURIComponent("https://developer-survey.xfinnbar.repl.co/api/answer?choice=" + choice)}`
     }
 
     let data = new Promise(() => {});
@@ -46,11 +47,7 @@
     */
 
     async function choose(i) {
-        console.log(data.options) // -> undefined
-        let r = await sumbitChoice(data.options[i])
-        if (r) {
-            alert("You have chosen: " + data["options"][i]) // Uncaught TypeError: Cannot read property '0' of undefined
-        }
+        sumbitChoice()
     }
 </script>
 
