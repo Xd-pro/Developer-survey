@@ -74,7 +74,14 @@ def answer():
     })
     return redirect("/results")
   else:
-    return redirect("/already_sumbitted"), 400
+    if request.args.get("choice") not in OPTIONS:
+      return "Invalid language!", 400
+    answers.update({
+      "id": id
+    }, {
+      "choice": request.args.get("choice")
+    })
+    return redirect("/results")
 
 @app.route("/api/has_answered")
 def has_answered():
